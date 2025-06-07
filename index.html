@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="Experience the classic Pokemon Game Corner slot machine with authentic Gen 2 graphics, user accounts, and leaderboards!">
+    <meta name="keywords" content="pokemon, slot machine, game corner, retro gaming, casino, gen 2">
+    <meta name="author" content="Pokemon Slot Machine">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:title" content="Pokemon Game Corner - Slot Machine">
+    <meta property="og:description" content="Classic Pokemon Game Corner experience with authentic Gen 2 graphics!">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="">
+    <meta property="twitter:title" content="Pokemon Game Corner - Slot Machine">
+    <meta property="twitter:description" content="Classic Pokemon Game Corner experience with authentic Gen 2 graphics!">
+    
+    <!-- PWA Support -->
+    <meta name="theme-color" content="#8b956d">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Pokemon Slots">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" as="style">
+    
+    <title>Pokemon Game Corner - Slot Machine</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <h1>🎰 GAME CORNER 🎰</h1>
+            <div class="subtitle">Welcome to Celadon City!</div>
+            <div class="user-info">
+                <span id="user-display">Not logged in</span>
+                <div class="user-controls">
+                    <button id="login-btn" class="user-btn">LOGIN</button>
+                    <button id="register-btn" class="user-btn">REGISTER</button>
+                    <button id="leaderboard-btn" class="user-btn">LEADERBOARD</button>
+                    <button id="logout-btn" class="user-btn" style="display: none;">LOGOUT</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slot-machine">
+            <div class="machine-top">
+                <div class="display">
+                    <div class="coins-display">
+                        <span class="label">COINS:</span>
+                        <span id="coin-count">100</span>
+                    </div>
+                    <div class="bet-display">
+                        <span class="label">BET:</span>
+                        <span id="bet-amount">1</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="reels-container">
+                <div class="reel" id="reel1">
+                    <div class="symbol">🔥</div>
+                </div>
+                <div class="reel" id="reel2">
+                    <div class="symbol">💧</div>
+                </div>
+                <div class="reel" id="reel3">
+                    <div class="symbol">🌿</div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button id="bet-button" class="control-btn">BET ONE</button>
+                <button id="spin-button" class="control-btn spin-btn">SPIN!</button>
+                <button id="max-bet-button" class="control-btn">MAX BET</button>
+            </div>
+            
+            <div class="payout-info">
+                <h3>🏆 TRAINER PRIZE TABLE 🏆</h3>
+                <div class="payout-grid">
+                    <div class="payout-row legendary">
+                        <span class="combo">7️⃣7️⃣7️⃣</span>
+                        <span class="prize">500 coins - MEGA JACKPOT!</span>
+                    </div>
+                    <div class="payout-row epic">
+                        <span class="combo">⚡⚡⚡</span>
+                        <span class="prize">200 coins - LEGENDARY!</span>
+                    </div>
+                    <div class="payout-row rare">
+                        <span class="combo">🌿🌿🌿</span>
+                        <span class="prize">80 coins - Grass Power!</span>
+                    </div>
+                    <div class="payout-row rare">
+                        <span class="combo">💧💧💧</span>
+                        <span class="prize">60 coins - Water Blast!</span>
+                    </div>
+                    <div class="payout-row">
+                        <span class="combo">🔥🔥🔥</span>
+                        <span class="prize">40 coins - Fire Storm!</span>
+                    </div>
+                    <div class="payout-row">
+                        <span class="combo">⚪⚪⚪</span>
+                        <span class="prize">15 coins - Pokeball!</span>
+                    </div>
+                    <div class="payout-row special">
+                        <span class="combo">Any 2 7️⃣</span>
+                        <span class="prize">25 coins</span>
+                    </div>
+                    <div class="payout-row special">
+                        <span class="combo">Any 2 ⚡</span>
+                        <span class="prize">8 coins</span>
+                    </div>
+                    <div class="payout-row special">
+                        <span class="combo">Any 2 Types</span>
+                        <span class="prize">2-4 coins</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="message-area">
+                <div id="game-message">Good luck, trainer!</div>
+            </div>
+        </div>
+        
+        <div class="flavor-text">
+            <p>"Try your luck, trainer! Catch rare Pokemon items with every spin!"</p>
+            <p>"The legendary Pikachu jackpot has never been caught... will you be the first?"</p>
+            <p>- Celadon Game Corner Attendant</p>
+        </div>
+    </div>
+    
+    <!-- User Modals -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <h3>🎮 Trainer Login</h3>
+            <form id="login-form">
+                <input type="text" id="login-username" placeholder="Username" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <div class="modal-buttons">
+                    <button type="submit" class="modal-btn">LOGIN</button>
+                    <button type="button" class="modal-btn cancel" onclick="closeModal('login-modal')">CANCEL</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <h3>📝 New Trainer Registration</h3>
+            <form id="register-form">
+                <input type="text" id="register-username" placeholder="Choose a username" required>
+                <input type="password" id="register-password" placeholder="Create password" required>
+                <input type="email" id="register-email" placeholder="Email (optional)">
+                <div class="modal-buttons">
+                    <button type="submit" class="modal-btn">REGISTER</button>
+                    <button type="button" class="modal-btn cancel" onclick="closeModal('register-modal')">CANCEL</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div id="leaderboard-modal" class="modal">
+        <div class="modal-content leaderboard">
+            <h3>🏆 HALL OF FAME 🏆</h3>
+            <div id="leaderboard-content">Loading...</div>
+            <div class="modal-buttons">
+                <button type="button" class="modal-btn" onclick="closeModal('leaderboard-modal')">CLOSE</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Core scripts in dependency order -->
+    <script src="config.js"></script>
+    <script src="error-handler.js"></script>
+    <script src="audio-effects.js"></script>
+    <script src="gameboy-effects.js"></script>
+    <script src="user-system.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

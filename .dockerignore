@@ -1,0 +1,48 @@
+# Docker ignore file for Pokemon Slot Machine
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox
+.coverage
+.pytest_cache/
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Logs
+*.log
+
+# Database (will be created fresh in container)
+*.db
+*.db-shm
+*.db-wal
+
+# Temporary test files
+test-fixes.html
+vps-config.md
+
+# Old/unnecessary scripts
+run.sh
