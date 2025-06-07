@@ -13,6 +13,11 @@ class Config {
         return 'production';
     }
     
+    isReverseProxy() {
+        // Check if running behind a reverse proxy
+        return location.port === '' || location.port === '80' || location.port === '443';
+    }
+    
     detectDockerEnvironment() {
         // Check if running in Docker container
         // Docker containers often have specific hostnames or ports exposed
@@ -23,18 +28,18 @@ class Config {
     getProductionApiBase() {
         // Smart API base detection for different production scenarios
         
-        // Case 1: Docker direct access (ports 5000/5001 exposed)
+        // Case 1: Reverse proxy (nginx) - standard ports
+        if (this.isReverseProxy()) {
+            return '/api'; // Nginx handles routing internally
+        }
+        
+        // Case 2: Direct Docker access - both ports exposed
         if (location.port === '5000') {
             return `${location.protocol}//${location.hostname}:5001/api`;
         }
         
-        // Case 2: Docker with nginx reverse proxy
-        if (location.port === '80' || location.port === '443' || location.port === '') {
-            return '/api'; // Assumes reverse proxy routing
-        }
-        
-        // Case 3: VPS direct deployment
-        return '/api'; // Default to reverse proxy assumption
+        // Case 3: Development fallback
+        return `${location.protocol}//${location.hostname}:5001/api`;
     }
     
     loadConfig() {
