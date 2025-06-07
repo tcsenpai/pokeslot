@@ -15,7 +15,19 @@ class Config {
     
     isReverseProxy() {
         // Check if running behind a reverse proxy
+        // This detects nginx proxy by checking if we get HTML responses from /api (not JSON)
         return location.port === '' || location.port === '80' || location.port === '443';
+    }
+    
+    isNginxProxy() {
+        // Detect if we're behind nginx proxy
+        // Nginx proxy will handle /api routing internally
+        try {
+            // Simple test: if we're on port 5000 and not localhost, likely nginx
+            return location.port === '5000' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1';
+        } catch (e) {
+            return false;
+        }
     }
     
     detectDockerEnvironment() {
@@ -28,17 +40,17 @@ class Config {
     getProductionApiBase() {
         // Smart API base detection for different production scenarios
         
-        // Case 1: Reverse proxy (nginx) - standard ports
+        // Case 1: Standard reverse proxy (nginx on 80/443)
         if (this.isReverseProxy()) {
             return '/api'; // Nginx handles routing internally
         }
         
-        // Case 2: Direct Docker access - both ports exposed
-        if (location.port === '5000') {
-            return `${location.protocol}//${location.hostname}:5001/api`;
+        // Case 2: Nginx proxy on port 5000 (VPS with busy port 80)
+        if (this.isNginxProxy()) {
+            return '/api'; // Nginx handles routing internally
         }
         
-        // Case 3: Development fallback
+        // Case 3: Development fallback (localhost)
         return `${location.protocol}//${location.hostname}:5001/api`;
     }
     
