@@ -13,6 +13,30 @@ class Config {
         return 'production';
     }
     
+    detectDockerEnvironment() {
+        // Check if running in Docker container
+        // Docker containers often have specific hostnames or ports exposed
+        const isDocker = location.port === '5000' && location.hostname !== 'localhost';
+        return isDocker;
+    }
+    
+    getProductionApiBase() {
+        // Smart API base detection for different production scenarios
+        
+        // Case 1: Docker direct access (ports 5000/5001 exposed)
+        if (location.port === '5000') {
+            return `${location.protocol}//${location.hostname}:5001/api`;
+        }
+        
+        // Case 2: Docker with nginx reverse proxy
+        if (location.port === '80' || location.port === '443' || location.port === '') {
+            return '/api'; // Assumes reverse proxy routing
+        }
+        
+        // Case 3: VPS direct deployment
+        return '/api'; // Default to reverse proxy assumption
+    }
+    
     loadConfig() {
         const baseConfig = {
             // Game settings
@@ -53,7 +77,8 @@ class Config {
                 enableConsoleLogging: true,
             },
             production: {
-                apiBase: '/api', // Assumes reverse proxy
+                // Smart API base detection for different production scenarios
+                apiBase: this.getProductionApiBase(),
                 debug: false,
                 enableConsoleLogging: false,
             }
@@ -117,3 +142,11 @@ class Config {
 // Global config instance
 window.gameConfig = new Config();
 window.gameConfig.loadUserPreferences();
+
+// Debug logging for API base detection
+if (window.gameConfig.get('enableConsoleLogging')) {
+    console.log('🔧 Pokemon Slot Machine Config:');
+    console.log('   Environment:', window.gameConfig.environment);
+    console.log('   API Base:', window.gameConfig.get('apiBase'));
+    console.log('   Location:', location.href);
+}

@@ -10,8 +10,18 @@ from urllib.parse import urlparse, parse_qs
 import threading
 
 class GameDatabase:
-    def __init__(self, db_path="pokeslot.db"):
+    def __init__(self, db_path=None):
+        # Use environment variable or default
+        import os
+        if db_path is None:
+            db_path = os.environ.get('DATABASE_PATH', 'pokeslot.db')
         self.db_path = db_path
+        
+        # Ensure directory exists
+        db_dir = os.path.dirname(db_path)
+        if db_dir and not os.path.exists(db_dir):
+            os.makedirs(db_dir)
+            
         self.init_database()
     
     def init_database(self):

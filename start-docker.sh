@@ -24,14 +24,20 @@ if ! command -v python3 &> /dev/null; then
 fi
 
 echo "🚀 Starting backend server (API + Database) on 0.0.0.0:5001..."
-python3 backend.py &
+NODE_ENV=production python3 backend.py &
 BACKEND_PID=$!
 
-# Wait a moment for backend to start
+# Wait a moment for backend to start and test it
 sleep 3
+echo "🔍 Testing backend server..."
+if curl -s http://localhost:5001/api/leaderboard >/dev/null 2>&1; then
+    echo "✅ Backend server is responding"
+else
+    echo "⚠️ Backend server may have issues"
+fi
 
 echo "🌐 Starting frontend server on 0.0.0.0:5000..."
-python3 server.py &
+NODE_ENV=production python3 server.py &
 FRONTEND_PID=$!
 
 echo ""

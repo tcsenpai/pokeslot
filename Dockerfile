@@ -7,6 +7,7 @@ WORKDIR /app
 # Install system dependencies (minimal)
 RUN apt-get update && apt-get install -y \
     sqlite3 \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy application files
@@ -37,4 +38,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python3 -c "import urllib.request; urllib.request.urlopen('http://localhost:5000')" || exit 1
 
 # Default command - run production servers
-CMD ["bash", "/app/start-docker.sh"]
+CMD ["bash", "/app/start-docker-fixed.sh"]
